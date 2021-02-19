@@ -196,10 +196,10 @@ rm(tree)
 forest <- makeLearner("classif.randomForest", predict.type = "prob")
 
 getParamSet(forest)
-#ntree！ The number of trees in the forest
-#mtry！ The number of features to randomly sample at each node
-#nodesize！ The minimum number of cases after a split (the same as minbucket in the tree)
-#maxnodes！ The maximum number of leaves allowed
+#ntree- The number of trees in the forest
+#mtry- The number of features to randomly sample at each node
+#nodesize- The minimum number of cases after a split (the same as minbucket in the tree)
+#maxnodes- The maximum number of leaves allowed
 
 #set hyperparameters of random forest learner
 forestParamSpace <- makeParamSet(                        
