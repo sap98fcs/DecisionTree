@@ -30,13 +30,11 @@
 
 ##### 1) Taking a look at the data set 
 
-#install  and load the necessary packages
+#install and load the necessary packages
 install.packages("mlr")
 install.packages("tidyverse")
-install.packages("randomForest")
 library(mlr)
 library(tidyverse)
-library(randomForest)
 
 #Import data from github
 data <- read.csv("https://raw.githubusercontent.com/sap98fcs/DecisionTree/main/DecisionTree.csv")
@@ -59,6 +57,7 @@ count(data[2:63],as.factor(rowSums(data[2:63])))
 
 #modify the data set for binary classification 
 data$Type[data$Type != "Mobilize" ] <- "nonMobilize"
+data$Type <- as.character(data$Type)
 
 #make sure we have the same random number
 set.seed(1234)
@@ -191,6 +190,10 @@ rm(tree)
 #The basic idea to create multiple model by bootstrapping, and then each model cast a vote on the prediction 
 #Bootstrapping could reduce variance (avoiding overfitting) as outliners have less chance to be selected
 #In each node, the number of features to be considered is randomly selected to increase the independency between model
+
+#install the RF packet
+install.packages("randomForest")
+library(randomForest)
 
 #define the new learner
 forest <- makeLearner("classif.randomForest", predict.type = "prob")
@@ -351,6 +354,10 @@ pre_forest <- sum(prediction_forest$tp)/(sum(prediction_forest$tp)+sum(predictio
 
 pre_tree
 pre_forest
+
+#install package for AUC PR Curve
+install.packages("MLmetrics")
+library(MLmetrics)
 
 # Area under ROC curve
 AUC(y_pred = prediction_tree$prob.Mobilize,y_true=prediction_tree$truth)
