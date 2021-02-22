@@ -285,7 +285,18 @@ prediction_forest <- prediction_forest %>%
 acc_forest <- sum(prediction_forest$correct)/nrow(prediction_forest)
 acc_forest
 
-# Recode the data into 1(Mobilize) <-positive and 0(nonMobilize) <-negative
+#get feature importance in a model
+t <- getFeatureImportance(tunedForestModel)
+t <- t$res[order(t$res[, "importance"], decreasing = TRUE),]
+
+z <- getFeatureImportance(tunedTreeModel)
+z <- z$res[order(z$res[, "importance"], decreasing = TRUE),]
+
+install.packages("dplyr")
+library(dplyr)
+featureimportance <- inner_join(t,z, by="variable")
+
+#Recode the data into 1(Mobilize as positive) and 0(nonMobilize as negative)
 
 prediction_tree$truth <- as.character(prediction_tree$truth)
 prediction_tree$response <- as.character(prediction_tree$response)
